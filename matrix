@@ -1,0 +1,39 @@
+import numpy as np
+
+def softmax(x):
+    # Numerically stable softmax
+    x = x - np.max(x, axis=-1, keepdims=True)
+    return np.exp(x) / np.sum(np.exp(x), axis=-1, keepdims=True)
+
+def scaled_dot_product_attention(Q, K, V):
+    """
+    Computes Scaled Dot-Product Attention.
+    Q: Query matrix  (shape: [seq_len_q, d_k])
+    K: Key matrix    (shape: [seq_len_k, d_k])
+    V: Value matrix  (shape: [seq_len_k, d_v])
+    Returns: (attention_weights, context_vector)
+    """
+
+    d_k = Q.shape[-1]                          # key dimension
+    scores = np.dot(Q, K.T) / np.sqrt(d_k)     # QK^T / sqrt(d_k)
+    
+    attention_weights = softmax(scores)        # softmax normalization
+    context = np.dot(attention_weights, V)     # weighted sum of values
+    
+    return attention_weights, context
+
+
+# Example usage
+if __name__ == "__main__":
+    Q = np.array([[1, 0, 1]])
+    K = np.array([[1, 2, 1],
+                  [0, 1, 0],
+                  [1, 0, 1]])
+    V = np.array([[10, 0],
+                  [0, 5],
+                  [1, 1]])
+
+    attn_weights, ctx = scaled_dot_product_attention(Q, K, V)
+    
+    print("Attention Weights:\n", attn_weights)
+    print("\nContext Vector:\n", ctx)
