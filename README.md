@@ -94,11 +94,3 @@ torch
 Install using:
 
 pip install numpy torch
-
-References
-
-Vaswani et al., Attention Is All You Need, 2017
-
-Lecture Slides: Positional Encoding, Attention, Multi-Head Attention
-
-Transformer Encoder Block architecture (as shown in class PDFs)
